@@ -1,0 +1,27 @@
+CREATE DATABASE library;
+\c library
+CREATE TABLE books(
+books_names VARCHAR(120) NOT NULL,
+description TEXT DEFAULT '2018-01-01',
+date_publications DATE NOT NULL DEFAULT '2018-01-01',
+author VARCHAR(60) NOT NULL,
+cetegory VARCHAR(30) NOT NULL);
+
+INSERT INTO books
+(books_names,description,date_publications,author,cetegory)
+VALUES
+('Aristokrat','some title','1999-09-04','Alex Wolker','humor'),
+('Aristotel','autobiograph','2007-12-23','Karnel Darges','histori'),
+('Scrappu Little','littel mouse','2001-09-30','Anna Kendrik','humor'),
+('The Wither','Man and Drakons','2010-03-02','Orest Wiltch','fantasy'),
+('Maska','Maska Club','2020-08-06','Anistor Clovlend','humor'),
+('Papies','Bad litel girl','1997-02-17','Inna Calter','humor');
+('Kill my Dogs','Men and her dog','2006-02-04','Copel Brayn','humor');
+('Love','Man and Woomen history','2020-03-02','Greg Plit','drama'),
+('Java','Clear code','2001-09-08','Bob Martin','stadu');
+('Cant','autobiography Cant','1998-05-06','Ivan Copt','autobiographu');
+
+
+
+
+
