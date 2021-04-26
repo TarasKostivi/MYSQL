@@ -36,7 +36,7 @@ SELECT * FROM books WHERE author_age > 30;
 SELECT * FROM books WHERE author_medal IS NULL;
 SELECT * FROM books WHERE author_email ='alexL@gmail.com';
 SELECT * FROM books WHERE isbn ='45-3092-3447';
-SELECT book_name, category FROM books;
+SELECT * FROM books WHERE category = 'fantasy';
 SELECT * FROM books WHERE number_of_pages > 200 AND author_age > 25;
 SELECT * FROM books WHERE category = 'humor' OR category = 'drama';
 SELECT * FROM books ORDER BY book_name;
