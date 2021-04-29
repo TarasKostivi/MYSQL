@@ -1,0 +1,47 @@
+\c library
+Потріббно додати коонку ціна, якщо її немає, і заповнити
+UPDATE books SET price = 20000.45 WHERE id = 1;
+UPDATE books SET price = 10000.50 WHERE id = 2;
+UPDATE books SET price = 4000.50 WHERE id = 3;
+UPDATE books SET price = 5000.90 WHERE id = 4;
+UPDATE books SET price = 6000.70 WHERE id = 5;
+UPDATE books SET price = 7000.40 WHERE id = 6;
+UPDATE books SET price = 80000.30 WHERE id = 7;
+UPDATE books SET price = 71000.30 WHERE id = 8;
+UPDATE books SET price = 60000.30 WHERE id = 9;
+UPDATE books SET price = 13000.10 WHERE id = 10;
+
+SELECT * FROM books;
+UPDATE books SET author_surname = 'Stathem' WHERE id = 2;
+SELECT COUNT(author_medal) AS number_of_medal FROM books;
+SELECT * FROM books WHERE number_of_pages = (SELECT min(number_of_pages) FROM books);
+SELECT MAX(number_of_pages) AS max_pages FROM books;
+SELECT AVG(price) FROM books;
+SELECT SUM(price) FROM books WHERE category = 'humor';
+SELECT MIN(price) AS min_price FROM books;
+SELECT * FROM books WHERE price = (SELECT min(price) FROM books);
+SELECT * FROM books WHERE book_name LIKE 'M%a';
+SELECT * FROM books WHERE book_name LIKE 'A%';
+SELECT * FROM books WHERE book_name NOT LIKE 'S%';
+SELECT * FROM books WHERE price BETWEEN 50 AND 120;
+DELETE FROM books WHERE id = 3;
+DELETE FROM books WHERE book_name = 'Love';
+library=# DELETE FROM books WHERE isbn = '42-2196-6142';
+ALTER TABLE books RENAME COLUMN author_name TO aut_name;
+DELETE  FROM books WHERE book_name = 'Maska' AND aut_name='Aniston';
+
+
+витягнути всі книжки
+змінити прізвище автора в 2х книжках
+підрахувати кількість книжок, в яких автори мають нагороди
+вивести інформацію про книжку з найменшою кількістю сторінок
+вивести максимальну кількість сторінок
+вивести середню ціну книжки
+порахувати суму книжок за категорією
+вивести мінімальну ціну книжки
+вивести інформацію про книжку з найменшою ціною
+написати 3 запити, використавши різні види пошуку за співпадіннями(like)
+вивести книжки де ціна на проміжку: 1. 50-120, 2. не включаючи проміжок 200-600.
+3 запити на видалення книжки(за id, name, isbn)
+Cпробувати змінити назву колонок, деякі записи з бази даних
+Спробувати видалити деякі записати з БД
