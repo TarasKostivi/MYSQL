@@ -1,0 +1,85 @@
+CREATE DATABASE library;
+\c library
+
+-книжка( назва, опис, ц≥на, isbn
+
+CREATE TABLE books (
+id SERIAL PRIMARY KEY,
+name VARCHAR(200),
+description TEXT,
+isbn VARCHAR(20) NOT NULL UNIQUE);
+
+-жанр_книжки(назва) 
+CREATE TABLE gener_books(
+Id SERIAL PRIMARY KEY,
+name VARCHAR(30));
+
+- автор (≥м`€, пр≥звище, емейл, адрес, дата народженн€) 
+CREATE TABLE author_books(
+id SERIAL PRIMARY KEY,
+name VARCHAR(45) NOT NULL,
+surname VARCHAR(45) NOT NULL,
+email VARCHAR(50) NOT NULL UNIQUE,
+address VARCHAR(45) NOT NULL UNIQUE,
+date_of_bird DATE NOT NULL);
+
+INSERT INTO books (name,description,isbn)
+VALUES 
+('Aristokrat','some title','23-233-43034'),
+('Aristotel','autobiograph','58-454-35363'),
+('Scrappu Little','littel mouse','98-9034-9955'),
+('The Wither','Man and Drakons','34-0984-7382'),
+('Maska','Maska Club','45-3092-3447');
+
+INSERT INTO gener_books (name) VALUES ('humor'),('histori'),('humor'),('fantasy'),('drama');
+
+INSERT INTO author_books (name,surname,email,address,date_of_bird)
+VALUES
+('Alex','Wolker','alexL@gmail.com','Stysa 2','1998-07-07'),
+('Karnel','Darges','karnelDag@gmail','Franka 31','1990-09-20'),
+('Anna','Kendrik','anna@gmail.com','Shevcenka 20','1938-09-12'),
+('Orest','Wiltch','orestW@gmail.com','Kopernik 10','1972-08-06'),
+('Anistor','Clovlend','adsClo@gmail.com','Shuhevitch','1986-12-16');
+
+Х ќтже, потр≥бно об`Їднати м≥ж собою книжку ≥ жанр книжки. 
+Х ”мова -книжка може належати до одного жанру
+ALTER TABLE gener_books ADD FOREIGN KEY (id) REFERENCES books(id);
+SELECT b.name, gb.name FROM books b JOIN gener_books gb ON gb.id=b.id;
+
+Х ѕодумати, €к правильно ≥ зробити об`Їднанн€ таблиць автор ≥ книжка. 
+Х ”мови -книжку може писати багато автор≥в
+CREATE TABLE books_author_books(
+books_id INT,
+author_books_id INT,
+CONSTRAINT PK_id PRIMARY KEY(books_id,author_books_id),
+FOREIGN KEY (books_id) REFERENCES books(id),
+FOREIGN KEY (author_books_id) REFERENCES author_books(id));
+
+INSERT INTO books_author_books
+VALUES (1,1),(1,2),(1,4);
+INSERT INTO books_author_books
+VALUES (2,1),(2,5);
+INSERT INTO books_author_books
+VALUES (3,2),(3,3);
+INSERT INTO books_author_books
+VALUES (4,2),(4,4),(4,5);
+INSERT INTO books_author_books
+VALUES (5,3),(5,5),(5,2);
+
+
+SELECT * FROM books
+JOIN books_author_books bab ON books.id=bab.books_id
+JOIN author_books ab ON bab.author_books_id=ab.id;
+
+SELECT books.name, author_name, surname FROM books
+JOIN books_author_books bab ON books.id=bab.books_id
+JOIN author_books ab ON bab.author_books_id=ab.id;
+
+
+
+
+
+
+
+
+
