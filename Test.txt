@@ -1,0 +1,108 @@
+CREATE DATABASE school;
+\c school
+CREATE TABLE subject(
+id SERIAL PRIMARY KEY NOT NULL,
+subject_name VARCHAR(50) NOT NULL,
+koef DECIMAL(5,2);
+
+CREATE TABLE audience(
+id SERIAL PRIMARY KEY NOT NULL,
+audience_name VARCHAR(50) NOT NULL,
+seats INT);
+
+CREATE TABLE teatchers(
+id SERIAL PRIMARY KEY NOT NULL,
+teatchers_name VARCHAR(50) NOT NULL,
+date_of_birth DATE DEFAULT '2000-01-02');
+
+CREATE TABLE student(
+id SERIAL PRIMARY KEY NOT NULL,
+student_name VARCHAR(50) NOT NULL,
+date_of_birth_student DATE DEFAULT '2000-01-02',
+class VARCHAR(10) NOT NULL);
+
+INSERT INTO subject (subject_name, koef)
+VALUES ('Mathematica', 10.2),('Phusical', 5.1),('Biology',3.23),('Himia', 44.23),('Music', 2.1); 
+
+INSERT INTO audience (audience_name, seats)
+VALUES ('601', 120),('602', 200),('603', 50),('604', 120),('605', 110);
+
+INSERT INTO teatchers (teatchers_name, date_of_birth)
+VALUES ('Alina Genadivna', '1980-12-24'),('Bohdan Dmitrovitch', '1970-08-23'),('Illa Igorovitch', '1985-03-22'),
+('Igor Tarasovitch', '1993-03-15'),('Denis Aliovitch', '1990-05-21');         
+
+INSERT INTO student (student_name,date_of_birth_student,class)
+VALUES 
+('Illa','2000-08-03','6B'),('Petro','1999-03-28','8B'),('Igor','1998-12-04','7A'),('Taras','1999-07-01','6A'),   
+('Tana','1997-10-02','7A');
+
+ALTER TABLE audience ADD FOREIGN KEY (id) REFERENCES subject(id);
+SELECT s.subject_name, a.audience_name FROM subject s JOIN audience a ON a.id=s.id;
+
+
+ALTER TABLE teatchers ADD FOREIGN KEY (id) REFERENCES subject(id);
+SELECT s.subject_name,t.teatchers_name FROM subject s JOIN teatchers t ON t.id=s.id;
+
+CREATE TABLE teatchersStudent (
+teatchers_id INT,
+student_id INT,
+CONSTRAINT PK_id PRIMARY KEY (teatchers_id, student_id),
+FOREIGN KEY (teatchers_id) REFERENCES teatchers(id),
+FOREIGN KEY (student_id) REFERENCES student(id));
+
+INSERT INTO teatchersStudent
+VALUES (1,1),(1,2),(1,3),(1,4);
+INSERT INTO teatchersStudent
+VALUES (2,1),(2,2),(2,3),(2,5);
+INSERT INTO teatchersStudent
+VALUES (3,1),(3,2),(3,3);
+INSERT INTO teatchersStudent
+VALUES (4,1),(4,2),(4,4);
+INSERT INTO teatchersStudent
+VALUES (5,1),(5,2);
+
+SELECT * FROM teatchers
+JOIN teatchersStudent ts ON teatchers.id=ts.teatchers_id
+JOIN student s ON ts.student_id=s.id;
+
+SELECT teatchers.teatchers_name, student_name FROM teatchers
+JOIN teatchersStudent ts ON teatchers.id=ts.teatchers_id
+JOIN student s ON ts.student_id=s.id;
+
+SELECT * FROM teatchers WHERE date_of_birth > '1980-01-01';
+SELECT * FROM student WHERE student_name <> 'I';-
+SELECT * FROM subject ORDER BY koef;
+SELECT * FROM teatchers MIN(date_of_birth);
+SELECT * FROM teatchers WHERE date_of_birth=(SELECT min(date_of_birth) FROM teatchers);
+SELECT COUNT(audience_name) FROM audience;
+SELECT SUM(seats)  AS audience_seats FROM audience;
+SELECT * FROM student WHERE date_of_birth_student BETWEEN 2000 AND 2005;
+SELECT * FROM student WHERE date_of_birth_student BETWEEN '2000%' AND '2005%';
+ALTER TABLE teatchers RENAME COLUMN teatchers_name TO teatchers_of_name;
+
+SELECT * FROM subject s
+JOIN teatchers t ON s.id = t.id
+WHERE subject_name = 'Phusical'; 
+
+SELECT * FROM teatchers
+JOIN teatchersStudent ts ON teatchers.id=ts.teatchers_id
+JOIN student s ON ts.student_id=s.id
+WHERE student_name = 'Petro';
+
+SELECT * FROM audience a
+JOIN subject s ON a.id = s.id
+WHERE subject_name = 'Biology';
+
+SELECT * FROM audience a
+JOIN teatchers t ON a.id = t.id
+WHERE teatchers_of_name = 'Bohdan Dmitrovitch';
+
+SELECT * FROM teatchers t
+JOIN audience a ON t.id = a.id
+JOIN subject s ON s.id = a.id
+WHERE subject_name = 'Himia';
+
+
+
+
+  
